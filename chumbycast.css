@@ -1,0 +1,65 @@
+body {
+    font-family: sans-serif;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    background: #eee;
+}
+#container {
+    background: #fff;
+    width: 30em;
+    padding: 0;
+    margin: 0 auto 0 auto;
+}
+#container h1 {
+    padding-top: 0.25em;
+    margin: 0;
+}
+
+#play_list_container {
+    overflow: auto;
+    height: 20em;
+}
+#play_list {
+    list-style: none;
+    padding: 0;
+    margin: 0.5em 0 0.5em 0;
+    font-size: 1.1em;
+}
+
+#play_list li {
+    padding: 0.5em;
+    margin: 0;
+    text-align: left;
+}
+
+#play_list li a {
+    color: #633;
+    font-weight: bold;
+}
+
+#play_list li .podcast_name {
+    font-size: 0.75em;
+    color: #333;
+    text-align: right;
+}
+
+#play_list li.odd {
+    background: #ff6;
+}
+
+#play_list li.even {
+    background: #ffc;
+}
+
+#play_list li.selected {
+    background: #fc9;
+}
+#play_list li.played a {
+    color: #666;
+    font-weight: normal;
+}
+
+#buttons {
+    padding: 0.5em 0 0.5em 0;
+}

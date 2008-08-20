@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+<head>
+	<title>iTunes Subscribed Feeds</title>
+	<dateCreated>Sat, 16 Aug 2008 15:13:57 GMT</dateCreated>
+	<dateModified>Sat, 16 Aug 2008 15:13:57 GMT</dateModified>
+</head>
+<body>
+	<outline text="Mark Kermode and Simon Mayo's Film Reviews" type="rss" xmlUrl="http://downloads.bbc.co.uk/podcasts/fivelive/kermode/rss.xml" htmlUrl="http://www.bbc.co.uk/fivelive/entertainment/kermode.shtml" />
+	<outline text="Late Night  Cocoa (MP3 Version)" type="rss" xmlUrl="http://feeds.feedburner.com/LateNightCocoaMp3Version" htmlUrl="http://www.latenightcocoa.com" />
+</body>
+</opml>
