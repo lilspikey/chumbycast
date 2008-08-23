@@ -7,6 +7,9 @@
     <library>
       <font id="main_font" import="fonts/Vera.ttf" />
       <clip id="app"  class="ChumbyCast" width="320" height="240" />
+      <clip id="play" import="images/play.png"  />
+      <clip id="stop" import="images/stop.png"/>
+      <clip id="refresh" import="images/refresh.png"/>
       <clip id="list" class="List" />
     </library>
   

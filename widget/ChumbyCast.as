@@ -5,10 +5,13 @@ class ChumbyCast extends MovieClip {
 	var selectedURL:String;
 	var statusField:TextField;
 	var statusTextFormat:TextFormat;
+	var playButton:MovieClip;
+	var stopButton:MovieClip;
+	var refreshButton:MovieClip;
 	
 	function onLoad() {
-		createList(0, 0, 320, 215);
-		createControls(0, 216, 320, 23);
+		createList(0, 0, 320, 200);
+		createControls(0, 201, 320, 38);
 		loadList();
 	}
 	
@@ -27,7 +30,7 @@ class ChumbyCast extends MovieClip {
 	}
 	
 	function createControls(x:Number, y:Number, width:Number, height:Number) {
-		this.statusField = this.createTextField("statusField", this.getNextHighestDepth(), x+width/2, y+3, width/2, height);
+		this.statusField = this.createTextField("statusField", this.getNextHighestDepth(), x+width/2, y+20, width/2, height);
 		this.statusTextFormat = new TextFormat();
 		this.statusTextFormat.font = "main_font";
 		this.statusTextFormat.size = 12;
@@ -39,13 +42,30 @@ class ChumbyCast extends MovieClip {
 		this.showMessage("");
 		
 		this.lineStyle(1, 0x333333);
-		this.beginFill(0xCCCC00);
+		this.beginFill(0xFFFF99);
 		this.moveTo(x, y);
 		this.lineTo(x+width-1, y);
 		this.lineTo(x+width-1, y+height);
 		this.lineTo(x,         y+height);
 		this.lineTo(x, y);
 		this.endFill();
+		
+		var self:MovieClip = this;
+		
+		playButton = this.attachMovie('play', 'playButton', this.getNextHighestDepth(), { _x: x+3, _y: y+3 })
+		playButton.onRelease = function() {
+			self.play();
+		};
+		
+		stopButton = this.attachMovie('stop', 'stopButton', this.getNextHighestDepth(), { _x: x+3+32+6, _y: y+3 });
+		stopButton.onRelease = function() {
+			self.stop();
+		};
+		
+		refreshButton = this.attachMovie('refresh', 'refreshButton', this.getNextHighestDepth(), { _x: x+3+32+6+32+6, _y: y+3 });
+		refreshButton.onRelease = function() {
+			self.refresh();
+		};
 	}
 	
 	function populateList(data:String) {
@@ -72,7 +92,15 @@ class ChumbyCast extends MovieClip {
 	}
 	
 	function play() {
-		// TODO
+		this.showMessage("Playing... ");
+	}
+	
+	function stop() {
+		this.showMessage("Stopping... ");
+	}
+	
+	function refresh() {
+		this.showMessage("Refreshing... ");
 	}
 	
 	function showMessage(message:String) {

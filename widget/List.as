@@ -63,7 +63,7 @@ class List extends MovieClip {
 	}
 	
 	function autoScroll() {
-		if ( !this.mouse_down ) {
+		if ( !this.mouse_down && this.selected < 0 ) {
 			this.auto_scroll_wait--;
 			if ( this.auto_scroll_wait >= 0 ) {
 				return;
