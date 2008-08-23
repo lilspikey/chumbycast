@@ -7,32 +7,25 @@ class ChumbyCast extends MovieClip {
 	var contentHTMLField:TextField;
 	
 	function onLoad() {
-		var itemsList:MovieClip = this.attachMovie('list', 'itemsList', this.getNextHighestDepth());
+		var width:Number = 320;
+		var list_height:Number = 220;
+		var itemsList:MovieClip = this.attachMovie('list', 'itemsList', this.getNextHighestDepth(), { _y: 1, _x: 1, list_height: list_height, list_width: width-2 });
 		this.itemsList=itemsList;
 		
-		itemsList.addItem("Loading...");
+		this.clear();
+		this.lineStyle(1, 0x333333);
+		this.beginFill(0xCCCCCC);
+		this.moveTo(0,0);
+		this.lineTo(width-1, 0);
+		this.lineTo(width-1, list_height+1);
+		this.lineTo(0, list_height+1);
+		this.lineTo(0, 0);
+		this.endFill();
 		
 		loadList();
-		
-		/*var test_handler:Function = function() {
-			itemsList.clearItems();
-			itemsList.addItem("cleared");
-		};
-		
-		itemsList.addItem("clear", test_handler);
-		itemsList.addItem("two");
-		itemsList.addItem("three");
-		itemsList.addItem("four");
-		itemsList.addItem("five");
-		itemsList.addItem("six");
-		itemsList.addItem("seven");
-		itemsList.addItem("eight");
-		itemsList.addItem("nine");
-		itemsList.addItem("ten");*/
 	}
 	
-	function createList(data:String) {
-		this.itemsList.addItem("loaded");
+	function populateList(data:String) {
 		var json:JSON = new JSON();
 		var json_data:Object = json.parse(data);
 		
@@ -43,15 +36,21 @@ class ChumbyCast extends MovieClip {
 		}
 	}
 	
+	function showMessage(message:String) {
+		this.itemsList.addItem(message);
+	}
+	
 	function loadList() {
+		this.showMessage("Loading...");
+		
 		var self:MovieClip = this;
 		var loader:LoadVars = new LoadVars();
 		loader.onData = function(data:String) {
 			if ( data ) {
-				self.createList(data);
+				self.populateList(data);
 			}
 			else {
-				self.itemsList.addItem("error loading");
+				self.showMessage("error loading");
 			}
 		};
 		loader.load("http://localhost:3142/list");

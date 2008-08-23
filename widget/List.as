@@ -10,8 +10,12 @@ class List extends MovieClip {
 	var auto_scroll_wait:Number;
 	
 	function List() {
-		this.list_width  = 320;
-		this.list_height = 240;
+		if ( !this.list_width ) {
+			this.list_width = 320;
+		}
+		if ( !this.list_height ) {
+			this.list_height = 240;
+		}
 		this.items = [];
 		this.selected=-1;
 		this.prev_y=-1;
@@ -38,18 +42,24 @@ class List extends MovieClip {
 	}
 	
 	function drawItem(item:MovieClip,highlight:Boolean) {
-		var width:Number  = item.item_width-1;
+		var width:Number  = item.item_width;
 		var height:Number = item.item_height;
 	
+		var color:Number = highlight? 0xFFFFFF : 0xCCCCCC;
+	
 		item.clear();
-		item.beginFill(highlight? 0xFFFFFF : 0xCCCCCC);
-		item.lineStyle(1, 0x000000);
+		item.beginFill(color);
+		item.lineStyle(0, color);
 		item.moveTo(0,0);
 		item.lineTo(width, 0);
 		item.lineTo(width, height);
 		item.lineTo(0, height);
 		item.lineTo(0,0);
 		item.endFill();
+		
+		item.lineStyle(1, 0x000000);
+		item.moveTo(0, height-1);
+		item.lineTo(width, height-1);
 	}
 	
 	function autoScroll() {
@@ -95,7 +105,7 @@ class List extends MovieClip {
 	
 	function createItem(label:String):MovieClip {
 		var item:MovieClip = this.createEmptyMovieClip("item_"+this.items.length, this.getNextHighestDepth());
-		var textField:TextField = item.createTextField("textField", item.getNextHighestDepth(), 0, 0, this.list_width-1, 0);
+		var textField:TextField = item.createTextField("textField", item.getNextHighestDepth(), 0, 0, this.list_width, 0);
 		item.textField.embedFonts = true;
 		item.textField.text=label;
 		item.textField.wordWrap=true;
@@ -142,7 +152,7 @@ class List extends MovieClip {
 		
 		item._x = 0;
 		item._y = y;
-		item.item_width  = this.list_width-1;
+		item.item_width  = this.list_width;
 		
 		// do this twice to ensure things get laid out
 		// correctly
