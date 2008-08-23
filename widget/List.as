@@ -6,6 +6,7 @@ class List extends MovieClip {
 	var list_height:Number;
 	var prev_y:Number;
 	var mouse_down:Boolean;
+	var scroll_amount:Number;
 	var auto_scroll_down:Boolean;
 	var auto_scroll_wait:Number;
 	
@@ -72,6 +73,11 @@ class List extends MovieClip {
 			if ( Math.abs(scrollItems(dy)) <= 0.1 ) {
 				this.auto_scroll_down = !this.auto_scroll_down;
 				this.auto_scroll_wait=10;
+			}
+		}
+		else if ( this.mouse_down ) {
+			if ( this.scroll_amount != 0 ) {
+				this.scroll_amount -= scrollItems(Math.round(0.75*this.scroll_amount));
 			}
 		}
 	}
@@ -169,6 +175,7 @@ class List extends MovieClip {
 			self.setSelected(index);
 			self.mouse_down=true;
 			self.prev_y=self._ymouse;
+			self.scroll_amount=0;
 			self.auto_scroll_wait=20;
 		};
 		
@@ -176,7 +183,8 @@ class List extends MovieClip {
 			if ( self.mouse_down ) {
 				var dy:Number = self._ymouse - self.prev_y;
 				self.prev_y = self._ymouse;
-				self.scrollItems(dy);
+				self.scroll_amount += dy;
+				//self.scrollItems(dy);
 				if ( dy > 2 ) {
 					self.setSelected(-1);
 				}
