@@ -7,6 +7,7 @@
     <library>
       <font id="main_font" import="fonts/Vera.ttf" />
       <clip id="app"  class="ChumbyCast" width="320" height="240" />
+      <clip id="list" class="List" width="320" height="240" />
     </library>
   
     <place id="app" name="myApp" depth="0" />

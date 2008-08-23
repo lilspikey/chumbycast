@@ -1,6 +1,7 @@
 
 class List extends MovieClip {
 	var items:Array;
+	var selected:Number;
 	var list_width:Number;
 	var list_height:Number;
 	var prev_y:Number;
@@ -12,6 +13,7 @@ class List extends MovieClip {
 		this.list_width  = 320;
 		this.list_height = 240;
 		this.items = [];
+		this.selected=-1;
 		this.prev_y=-1;
 		this.mouse_down=false;
 		this.auto_scroll_down=true;
@@ -108,6 +110,27 @@ class List extends MovieClip {
 		return item;
 	}
 	
+	function setSelected(selected:Number) {
+		var prev_selected = this.selected;
+		if ( prev_selected >= 0 && prev_selected < this.items.length ) {
+			this.drawItem(items[prev_selected], false);
+		}
+		
+		this.selected = selected;
+		if ( selected >= 0 && selected < this.items.length ) {
+			this.drawItem(items[selected], true);
+		}
+	}
+	
+	function clearItems() {
+		this.selected = -1;
+		for ( var i:Number = 0; i < this.items.length; i++ ) {
+			var item:MovieClip = this.items[i];
+			item.removeMovieClip();
+		}
+		this.items=[];
+	}
+	
 	function addItem(label:String, listener:Function) {
 		var y:Number = 0;
 		for ( var i:Number = 0; i < this.items.length; i++ ) {
@@ -128,10 +151,12 @@ class List extends MovieClip {
 			this.drawItem(item, false);
 		}
 		
+		var index:Number = this.items.length;
+		
 		var self:MovieClip = this;
 		
 		item.onPress = function() {
-			self.drawItem(item, true);
+			self.setSelected(index);
 			self.mouse_down=true;
 			self.prev_y=self._ymouse;
 		};
@@ -141,16 +166,18 @@ class List extends MovieClip {
 				var dy:Number = self._ymouse - self.prev_y;
 				self.prev_y = self._ymouse;
 				self.scrollItems(dy);
+				if ( dy > 2 ) {
+					self.setSelected(-1);
+				}
 			}
 		}
 		
 		item.onReleaseOutside = function() {
-			self.drawItem(item, false);
+			self.setSelected(-1);
 			self.mouse_down=false;
 		};
 		
 		item.onRelease = function() {
-			self.drawItem(item, false);
 			self.mouse_down=false;
 			if ( listener ) {
 				listener();
