@@ -9,6 +9,7 @@ class ChumbyCast extends MovieClip {
 	var stopButton:MovieClip;
 	var refreshButton:MovieClip;
 	
+	
 	function onLoad() {
 		createList(0, 0, 320, 200);
 		createControls(0, 201, 320, 38);
@@ -68,24 +69,35 @@ class ChumbyCast extends MovieClip {
 		};
 	}
 	
-	function populateList(data:String) {
-		this.showMessage("Parsing... ");
-		var self:MovieClip = this;
-		_global.setTimeout(function() { self.parseList(data); }, 100);
+	function setTimeout(callback:Function, delay:Number) {
+		var timeoutID = 0;
+		
+		timeoutID=setInterval(
+			function() {
+				callback();
+				clearInterval(timeoutID);
+			}
+			,delay);
 	}
 	
-	function parseList(data:String) {
+	function populateList(data:String) {
+		itemsList.clearItems();
+		this.showMessage("Parsing... ");
+		
+		var self:MovieClip = this;
+		this.setTimeout(function() { self.parseData(data); } ,100);
+	}
+	
+	function parseData(data:String) {
 		var json:JSON = new JSON();
 		var json_data:Object = json.parse(data);
-		
+		delete data;
 		this.showMessage("Updating... ");
 		var self:MovieClip = this;
-		_global.setTimeout(function() { self.updateList(json_data); }, 100);
-		
+		this.setTimeout(function() { self.updateList(json_data); } ,100);
 	}
 	
 	function updateList(json_data:Object) {
-		itemsList.clearItems();
 		for ( var i:Number = 0; i < json_data.length; i++ ) {
 			var title:String = json_data[i][1];
 			var url:String = json_data[i][2];
@@ -94,7 +106,7 @@ class ChumbyCast extends MovieClip {
 		}
 		this.showMessage("");
 	}
-	
+		
 	function addItem(title:String, url:String, played:Boolean) {
 		var self:MovieClip = this;
 		itemsList.addItem(title,
@@ -135,7 +147,6 @@ class ChumbyCast extends MovieClip {
 			{},
 			function(data:String) {
 				self.populateList(data);
-				self.showMessage("");
 			}
 		);
 	}
