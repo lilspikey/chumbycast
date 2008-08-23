@@ -30,7 +30,7 @@ class HTTPHandler(SocketServer.StreamRequestHandler):
         m=re.match(r'([A-Z]+)\s+([^\s?]+)(?:\?(\S*))?\s+HTTP.*',request_line)
         if m:
             command, path, query=m.groups()
-            #print command, path, query
+            print command, path, query
             self.command=command
             self.path=path
             if path == '/':

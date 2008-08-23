@@ -42,6 +42,7 @@ def read_feeds_from_opml(opml_file):
 
 def get_podcast_list():
     for feed_url, description in read_feeds_from_opml('Podcasts.opml'):
+        print feed_url
         yield Podcast(feed_url, description)
 
 class Podcast(object):
@@ -52,6 +53,7 @@ class Podcast(object):
     
     def fetch_items(self):
         for url, title in find_enclosed_urls(self.url):
+            print url
             item=PodcastItem(url, title)
             if not item in self.items:
                 self.items.append(item)
@@ -119,6 +121,8 @@ class PodcastHTTPHandler(HTTPHandler):
         self.send_header("Content-type", "text/plain")
         self.end_headers()
         
+        print "listing podcasts"
+        
         self.wfile.write("[")
         # only reading from db
         try:
@@ -130,6 +134,9 @@ class PodcastHTTPHandler(HTTPHandler):
                     if not first:
                         self.wfile.write(", ")
                     first=False
+                    
+                    print "listing ", item_title
+                    
                     self.wfile.write("[ ")
                     self.wfile.write(escape_js(podcast.title))
                     self.wfile.write(", ")
@@ -202,10 +209,14 @@ class PodcastHTTPHandler(HTTPHandler):
             podcast_list[quoted_url]=podcast
             live_podcasts.add(quoted_url)
         
+        print "got all podcasts"
+        
         # remove old podcasts
         for quoted_url in podcast_list.keys():
             if not quoted_url in live_podcasts:
                 del podcast_list[quoted_url]
+        
+        print "removed old podcasts"
         
         podcast_list.close()
         

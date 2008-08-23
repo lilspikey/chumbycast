@@ -143,9 +143,9 @@ class List extends MovieClip {
 	
 	function addItem(label:String, listener:Function) {
 		var y:Number = 0;
-		for ( var i:Number = 0; i < this.items.length; i++ ) {
-			var item = this.items[i];
-			y = Math.max(y, item._y + item._height);
+		if ( this.items.length > 0 ) {
+			var lastItem = this.items[this.items.length-1];
+			y = lastItem._y + lastItem._height;
 		}
 		
 		var item:MovieClip = createItem(label);

@@ -69,9 +69,22 @@ class ChumbyCast extends MovieClip {
 	}
 	
 	function populateList(data:String) {
+		this.showMessage("Parsing... ");
+		var self:MovieClip = this;
+		_global.setTimeout(function() { self.parseList(data); }, 100);
+	}
+	
+	function parseList(data:String) {
 		var json:JSON = new JSON();
 		var json_data:Object = json.parse(data);
 		
+		this.showMessage("Updating... ");
+		var self:MovieClip = this;
+		_global.setTimeout(function() { self.updateList(json_data); }, 100);
+		
+	}
+	
+	function updateList(json_data:Object) {
 		itemsList.clearItems();
 		for ( var i:Number = 0; i < json_data.length; i++ ) {
 			var title:String = json_data[i][1];

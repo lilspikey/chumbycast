@@ -1,0 +1,20 @@
+<profile>
+  <widget_instances>
+    <widget_instance id="1">
+      <widget>
+        <name>Chumbycast</name>
+        <description>Podcatcher for chumby</description>
+        <version>1.0</version>
+        <mode time="60" mode="timeout"/>
+        <access sendable="false" deleteable="false" access="private" virtualable="false"/>
+        <user username="lilspikey"/>
+        <thumbnail href="file:////mnt/usb/widget/icon.jpg" contenttype="image/jpeg"/>
+        <movie href="file:////mnt/usb/widget/chumbycast.swf" contenttype="application/x-shockwave-flash"/>
+      </widget>
+      <access access="private"/>
+      <mode time="60" mode="timeout"/>
+      <widget_parameters>
+      </widget_parameters>
+    </widget_instance>
+  </widget_instances>
+</profile>
