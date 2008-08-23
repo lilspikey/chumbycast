@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<movie version="8" width="320" height="240" framerate="12">
+  <background color="#ffffff"/>
+  <clip import="build/classes.swf" />
+  
+  <frame>
+    <library>
+      <font id="main_font" import="fonts/Vera.ttf" />
+      <clip id="app"  class="ChumbyCast" width="320" height="240" />
+    </library>
+  
+    <place id="app" name="myApp" depth="0" />
+  </frame>
+</movie>
