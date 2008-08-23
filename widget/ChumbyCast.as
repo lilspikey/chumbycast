@@ -1,4 +1,4 @@
-import List
+import Json
 
 class ChumbyCast extends MovieClip {	
 	var itemsList:MovieClip;
@@ -10,7 +10,11 @@ class ChumbyCast extends MovieClip {
 		var itemsList:MovieClip = this.attachMovie('list', 'itemsList', this.getNextHighestDepth());
 		this.itemsList=itemsList;
 		
-		var test_handler:Function = function() {
+		itemsList.addItem("Loading...");
+		
+		loadList();
+		
+		/*var test_handler:Function = function() {
 			itemsList.clearItems();
 			itemsList.addItem("cleared");
 		};
@@ -24,7 +28,33 @@ class ChumbyCast extends MovieClip {
 		itemsList.addItem("seven");
 		itemsList.addItem("eight");
 		itemsList.addItem("nine");
-		itemsList.addItem("ten");
+		itemsList.addItem("ten");*/
+	}
+	
+	function createList(data:String) {
+		this.itemsList.addItem("loaded");
+		var json:JSON = new JSON();
+		var json_data:Object = json.parse(data);
+		
+		itemsList.clearItems();
+		for ( var i:Number = 0; i < json_data.length; i++ ) {
+			var title = json_data[i][1];
+			itemsList.addItem(title);
+		}
+	}
+	
+	function loadList() {
+		var self:MovieClip = this;
+		var loader:LoadVars = new LoadVars();
+		loader.onData = function(data:String) {
+			if ( data ) {
+				self.createList(data);
+			}
+			else {
+				self.itemsList.addItem("error loading");
+			}
+		};
+		loader.load("http://localhost:3142/list");
 	}
 	
 }

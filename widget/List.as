@@ -104,7 +104,7 @@ class List extends MovieClip {
 		
 		var style_fmt:TextFormat = new TextFormat();
 		style_fmt.font = "main_font";
-		style_fmt.size = 20;
+		style_fmt.size = 14;
 		item.textField.setTextFormat(style_fmt);
 		
 		return item;
@@ -159,6 +159,7 @@ class List extends MovieClip {
 			self.setSelected(index);
 			self.mouse_down=true;
 			self.prev_y=self._ymouse;
+			self.auto_scroll_wait=20;
 		};
 		
 		item.onMouseMove = function() {

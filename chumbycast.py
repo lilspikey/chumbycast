@@ -66,7 +66,7 @@ class PodcastItem(object):
         return self.url.__cmp__(other.url)
 
 def escape_js(s):
-    return "'%s'" % s.replace('\\','\\\\').replace("'","\\'")
+    return "\"%s\"" % s.replace('\\','\\\\').replace("\"","\\\"")
 
 _content_types={
     'html': 'text/html',
@@ -107,6 +107,12 @@ class PodcastHTTPHandler(HTTPHandler):
     
     def do_GET_chumbycast_js(self):
         self._serve_file('chumbycast.js')
+    
+    def do_GET_chumbycast_swf(self):
+        self._serve_file('widget/chumbycast.swf')
+    
+    def do_GET_flash(self):
+        self._serve_file('flash.html')
     
     def do_GET_list(self,**args):
         self.send_response(200)
