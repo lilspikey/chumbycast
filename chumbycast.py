@@ -175,7 +175,7 @@ class PodcastHTTPHandler(HTTPHandler):
             if found:
                 break
     
-    def do_POST_play(self,url=None):
+    def do_POST_play(self,url=None, **args):
         if url:
             self._btplay('play * %s' % url)
             self._mark_url_played(url)
@@ -185,9 +185,8 @@ class PodcastHTTPHandler(HTTPHandler):
         self.end_headers()
         self.wfile.write("Playing %s" % url)
     
-    def do_POST_stop(self,url=None):
-        if url:
-            self._btplay('stop')
+    def do_POST_stop(self, **args):
+        self._btplay('stop')
         self.send_response(200)
         self.send_header("Content-type", "text/plain")
         self.end_headers()

@@ -92,15 +92,39 @@ class ChumbyCast extends MovieClip {
 	}
 	
 	function play() {
-		this.showMessage("Playing... ");
+		if ( this.selectedURL ) {
+			this.showMessage("Playing... ");
+			var self:MovieClip = this;
+			postData("http://localhost:3142/play",
+				{ url: this.selectedURL },
+				function(data:String) {
+					self.showMessage("");
+				}
+			);
+		}
 	}
 	
 	function stop() {
 		this.showMessage("Stopping... ");
+		var self:MovieClip = this;
+		postData("http://localhost:3142/stop",
+			{},
+			function(data:String) {
+				self.showMessage("");
+			}
+		);
 	}
 	
 	function refresh() {
 		this.showMessage("Refreshing... ");
+		var self:MovieClip = this;
+		postData("http://localhost:3142/refresh",
+			{},
+			function(data:String) {
+				self.populateList(data);
+				self.showMessage("");
+			}
+		);
 	}
 	
 	function showMessage(message:String) {
@@ -108,19 +132,48 @@ class ChumbyCast extends MovieClip {
 		this.statusField.setTextFormat(this.statusTextFormat);
 	}
 	
-	function loadList() {
-		this.showMessage("Loading... ");
+	function postData(url:String, values:Object, success:Function) {
 		var self:MovieClip = this;
+		var postdata:LoadVars = new LoadVars();
+		postdata['_']=(new Date()).getTime();
+		for ( var name in values ) {
+			postdata[name] = values[name];
+		}
+		
 		var loader:LoadVars = new LoadVars();
 		loader.onData = function(data:String) {
 			if ( data ) {
-				self.populateList(data);
+				success(data);
 			}
 			else {
 				self.showMessage("error loading");
 			}
 		};
-		loader.load("http://localhost:3142/list");
+		postdata.sendAndLoad(url, loader);
+	}
+	
+	function loadData(url:String, success:Function) {
+		var self:MovieClip = this;
+		var loader:LoadVars = new LoadVars();
+		loader.onData = function(data:String) {
+			if ( data ) {
+				success(data);
+			}
+			else {
+				self.showMessage("error loading");
+			}
+		};
+		loader.load(url);
+	}
+	
+	function loadList() {
+		this.showMessage("Loading... ");
+		var self:MovieClip = this;
+		loadData("http://localhost:3142/list",
+			function(data:String) {
+				self.populateList(data);
+			}
+		);
 	}
 	
 }
